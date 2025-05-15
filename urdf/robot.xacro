@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+
+<robot name="rob" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <gazebo reference="caster">
+  		<material> Gazebo/Blue </material>
+  </gazebo>
+
+  <gazebo reference="left_wheel">
+  		<material> Gazebo/Grey </material>
+  </gazebo>
+
+  <gazebo reference="right_wheel">
+  		<material> Gazebo/Grey </material>
+  </gazebo>
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <xacro:macro name="default_inertial" params="mass">
+	  <inertial>
+	    <mass value="${mass}" />
+      	    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      </inertial>
+  </xacro:macro>
+
+	<xacro:macro name="wheel" params="suffix reflect">
+	
+		<link name="${suffix}_wheel">
+			<xacro:default_inertial mass="1"/>
+
+			<visual>
+				<origin xyz="0 0 0" rpy="${-3.1415927/2} 0 0" />
+				<geometry>
+					<cylinder radius="0.15" length="0.1" />
+				</geometry>
+				<material name="blue"/>
+			</visual>
+
+			<collision>
+				<origin xyz="0 0 0" rpy="${-3.1415927/2} 0 0" />
+				<geometry>
+					<cylinder radius="0.15" length="0.1" />
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="base_${suffix}_wheel_joint" type="continuous">
+			<axis xyz="0 1 0" />
+			<origin xyz="-0.17 ${reflect*0.23} 0.091" rpy="0 0 0" />
+			<parent link="base_link" />
+			<child link="${suffix}_wheel" />
+		</joint>
+
+	</xacro:macro>
+
+
+	<link name="base_link">
+		<xacro:default_inertial mass="1"/>
+
+		<visual>
+			<origin xyz="-0.045 0 0.145" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="package://urdf_hw/meshes/chassis.dae"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<origin xyz="-0.045 0 0.145" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="package://urdf_hw/meshes/chassis.dae"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<link name="caster">
+		<xacro:default_inertial mass="1"/>
+
+		<visual>
+			<origin xyz="0 0 0" rpy="${-3.1415927/2.0} 0 0" />
+			<geometry>
+				<sphere radius="0.09"/>
+			</geometry>
+			<material name="blue"/>
+		</visual>
+
+		<collision>
+			<origin xyz="0 0 0" rpy="${-3.1415927/2.0} 0 0" />
+			<geometry>
+				<sphere radius="0.09"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<joint name="caster_joint" type="continuous">
+		<axis xyz="0 1 0" />
+		<origin xyz="0 0 -0.02" rpy="0 0 0" />
+		<parent link="abc"/>
+		<child link="caster"/>
+	</joint>
+
+	<link name="abc">
+		<xacro:default_inertial mass="1"/>
+
+		<visual>
+			<origin xyz="-0.6 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size="0.01 0.01 0.01" />
+			</geometry>
+		</visual>
+
+		<collision>
+			<origin xyz="-0.6 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size="0.01 0.01 0.01" />
+			</geometry>
+		</collision>
+	</link>
+
+
+	<joint name="base_abc_joint" type="continuous">
+		<origin xyz="0.15 0 -0.02" rpy="0 0 0" />
+		<axis xyz="0 0 1" />
+		<parent link="base_link" />
+		<child link="abc" />
+	</joint>
+
+	<xacro:wheel suffix="left" reflect="1"/>
+	<xacro:wheel suffix="right" reflect="-1"/>
+
+</robot>
