@@ -155,15 +155,14 @@
   	<gazebo reference="lidar_link">
     		<sensor type="ray" name="laser_sensor">
       			<pose>0 0 0 0 0 0</pose>
-      			<visualize>true</visualize>
       			<update_rate>30</update_rate>
       			<ray>
         			<scan>
           				<horizontal>
             					<samples>360</samples>
             					<resolution>1</resolution>
-            					<min_angle>-1.5708</min_angle>
-            					<max_angle>1.5708</max_angle>
+            					<min_angle>-3.1415</min_angle>
+            					<max_angle>3.1415</max_angle>
           				</horizontal>
         			</scan>
         			<range>
@@ -180,6 +179,43 @@
       			<plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_laser.so">
         			<topicName>scan</topicName>
         			<frameName>lidar_link</frameName>
+      			</plugin>
+    		</sensor>
+  	</gazebo>
+  	
+  	<link name="bumper_link">
+    		<xacro:default_inertial mass="0.1"/>
+    		<visual>
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<geometry>
+        			<box size="0.2 0.05 0.05"/>
+      			</geometry>
+      			<material name="blue"/>
+    		</visual>
+    		<collision>
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<geometry>
+        			<box size="0.2 0.05 0.05"/>
+      			</geometry>
+    		</collision>
+  	</link>
+
+  	<joint name="bumper_joint" type="fixed">
+    		<parent link="base_link"/>
+    		<child link="bumper_link"/>
+    		<origin xyz="0.25 0 0.1" rpy="0 0 0"/>
+  	</joint>
+
+  	<gazebo reference="bumper_link">
+    		<sensor type="contact" name="bumper_sensor">
+      			<always_on>true</always_on>
+      			<update_rate>50</update_rate>
+      			<contact>
+        			<collision>bumper_link</collision>
+      			</contact>
+      			<plugin name="bumper_plugin" filename="libgazebo_ros_bumper.so">
+        			<topicName>bumper</topicName>
+        			<frameName>bumper_link</frameName>
       			</plugin>
     		</sensor>
   	</gazebo>
