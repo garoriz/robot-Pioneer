@@ -18,6 +18,8 @@
 
   <arg name="model" default="$(find urdf_hw)/urdf/robot.xacro"/>
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+  
+  <rosparam file="$(find urdf_hw)/config/controller.yaml" command="load"/>
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
@@ -26,6 +28,9 @@
   <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="30.0" />
   </node>
+  
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen"
+      args="left_wheel_effort_controller right_wheel_effort_controller caster_effort_controller"/>
 
 </launch>
 

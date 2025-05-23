@@ -214,9 +214,47 @@
         			<collision>bumper_link</collision>
       			</contact>
       			<plugin name="bumper_plugin" filename="libgazebo_ros_bumper.so">
-        			<topicName>bumper</topicName>
         			<frameName>bumper_link</frameName>
-      			</plugin>
+      			</plugin>		
     		</sensor>
   	</gazebo>
+  	
+  	<transmission name="trans_left_wheel">
+  		<type>transmission_interface/SimpleTransmission</type>
+  		<joint name="base_left_wheel_joint">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+  		</joint>
+  		<actuator name="left_wheel_motor">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+    			<mechanicalReduction>1</mechanicalReduction>
+  		</actuator>
+	</transmission>
+	
+	<transmission name="trans_right_wheel">
+  		<type>transmission_interface/SimpleTransmission</type>
+  		<joint name="base_right_wheel_joint">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+  		</joint>
+  		<actuator name="right_wheel_motor">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+    			<mechanicalReduction>1</mechanicalReduction>
+  		</actuator>
+	</transmission>
+	
+	<transmission name="trans_caster">
+  		<type>transmission_interface/SimpleTransmission</type>
+  		<joint name="caster_joint">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+  		</joint>
+  		<actuator name="caster_motor">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+    			<mechanicalReduction>1</mechanicalReduction>
+  		</actuator>
+	</transmission>
+	
+	<gazebo>
+  		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    			<robotNamespace>/</robotNamespace>	
+  		</plugin>
+	</gazebo>
 </robot>
