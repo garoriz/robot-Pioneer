@@ -30,7 +30,7 @@
   </node>
   
   <node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen"
-      args="left_wheel_effort_controller right_wheel_effort_controller caster_effort_controller"/>
+      args="left_wheel_effort_controller right_wheel_effort_controller caster_effort_controller front_wheel_position_controller"/>
 
 </launch>
 

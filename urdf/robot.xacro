@@ -121,11 +121,12 @@
 	</link>
 
 
-	<joint name="base_abc_joint" type="continuous">
+	<joint name="base_abc_joint" type="revolute">
 		<origin xyz="0.15 0 -0.02" rpy="0 0 0" />
 		<axis xyz="0 0 1" />
 		<parent link="base_link" />
 		<child link="abc" />
+		<limit effort="10" velocity="1.0" lower="-1.57" upper="1.57"/>
 	</joint>
 
 	<xacro:wheel suffix="left" reflect="1"/>
@@ -259,4 +260,15 @@
     			<robotNamespace>/</robotNamespace>	
   		</plugin>
 	</gazebo>
+	
+	<transmission name="trans_front_wheel">
+  		<type>transmission_interface/SimpleTransmission</type>
+  		<joint name="base_abc_joint">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+  		</joint>
+  		<actuator name="front_wheel_motor">
+    			<hardwareInterface>EffortJointInterface</hardwareInterface>
+    			<mechanicalReduction>1.0</mechanicalReduction>
+  		</actuator>
+	</transmission>
 </robot>
