@@ -15,4 +15,7 @@ front_wheel_position_controller:
   joint: base_abc_joint
   pid: {p: 10.0, i: 0.0, d: 0.5}
   
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
 
